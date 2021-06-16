@@ -1,0 +1,40 @@
+#! /usr/bin/env node
+
+/**
+ * 1) 配置可执行命令 commander
+ * 2）实现命令行交互功能 inquirer
+ * 3）将模版下载下来
+ * 4）根据用户的选择动态的生成内容
+ * 
+*/
+const packageJson = require('../package.json');
+const program = require('commander');
+const chalk = require('chalk');
+
+program.command('create <app-name>')
+       .description('create a new project')
+       .option('-f, --force', 'overwrite target directory if it exists')
+       .action((name, cmd)=>{
+         require('../lib/create')(name, cmd);
+       })
+
+program.command('config [value]')
+       .description('inspect and modify the config')
+       .option('-g, --get <path>', 'get value from option')
+       .option('-s, --set <path> <value>', 'get value from option')
+       .option('-d, --delete <path>', 'delete option from config')
+       .action((name, cmd)=>{
+        console.log(name, cmd);
+       
+      })
+
+program.on('--help', ()=>{
+  console.log(`\nRun ${chalk.cyan('bang-cli <command> --help')} show details\n`);
+})
+
+program
+  .version(`bang-cli@${packageJson.version}`)
+  .usage('<command> [option]')
+
+// 解析用户执行命令传入的参数
+program.parse(process.argv);
