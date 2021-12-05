@@ -12,21 +12,33 @@ const program = require('commander');
 const chalk = require('chalk');
 
 program.command('create <app-name>')
-       .description('create a new project')
-       .option('-f, --force', 'overwrite target directory if it exists')
-       .action((name, cmd)=>{
-         require('../lib/create')(name, cmd);
-       })
+  .description('create a new project')
+  .option('-f, --force', 'overwrite target directory if it exists')
+  .action((name, cmd)=>{
+    require('../lib/create.js')(name, cmd);
+  })
+
+program.command('build')
+  .description('build package')
+  .action((name, cmd)=>{
+    require('../lib/build.js')(name, cmd);
+  })
+
+program.command('dev')
+  .description('develop package')
+  .action((name, cmd)=>{
+    require('../lib/dev.js')(name, cmd);
+  })
 
 program.command('config [value]')
-       .description('inspect and modify the config')
-       .option('-g, --get <path>', 'get value from option')
-       .option('-s, --set <path> <value>', 'get value from option')
-       .option('-d, --delete <path>', 'delete option from config')
-       .action((name, cmd)=>{
-        console.log(name, cmd);
-       
-      })
+  .description('inspect and modify the config')
+  .option('-g, --get <path>', 'get value from option')
+  .option('-s, --set <path> <value>', 'get value from option')
+  .option('-d, --delete <path>', 'delete option from config')
+  .action((name, cmd)=>{
+  console.log(name, cmd);
+  
+})
 
 program.on('--help', ()=>{
   console.log(`\nRun ${chalk.cyan('bang-cli <command> --help')} show details\n`);
